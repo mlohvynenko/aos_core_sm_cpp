@@ -4,13 +4,13 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-set(TARGET config_test)
+set(TARGET resourcemanager_test)
 
 # ######################################################################################################################
 # Sources
 # ######################################################################################################################
 
-set(SOURCES config_test.cpp)
+set(SOURCES resourcemanager_test.cpp)
 
 # ######################################################################################################################
 # Target
@@ -24,4 +24,4 @@ gtest_discover_tests(${TARGET})
 # Libraries
 # ######################################################################################################################
 
-target_link_libraries(${TARGET} config GTest::gmock_main)
+target_link_libraries(${TARGET} resourcemanager GTest::gmock_main)

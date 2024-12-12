@@ -1,5 +1,4 @@
 #
-# Copyright (C) 2024 Renesas Electronics Corporation.
 # Copyright (C) 2024 EPAM Systems, Inc.
 #
 # SPDX-License-Identifier: Apache-2.0
@@ -22,3 +21,6 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 # ######################################################################################################################
 
 add_subdirectory(config)
+add_subdirectory(database)
+add_subdirectory(resourcemanager)
+add_subdirectory(smclient)
