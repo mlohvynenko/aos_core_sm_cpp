@@ -92,7 +92,11 @@ void AosCore::Init(const std::string& configFile)
 
     // Initialize resource monitor
 
-    err = mResourceMonitor.Init(mIAMClientPublic, mResourceUsageProvider, mSMClient, mSMClient);
+    aos::monitoring::Config resourceMonitorConfig
+        = {mConfig.mMonitoring.mPollPeriod.count(), mConfig.mMonitoring.mAverageWindow.count()};
+
+    err = mResourceMonitor.Init(resourceMonitorConfig, mIAMClientPublic, mResourceManager, mResourceUsageProvider,
+        mSMClient, mSMClient, mSMClient);
     AOS_ERROR_CHECK_AND_THROW("can't initialize resource monitor", err);
 
     // Initialize image handler
