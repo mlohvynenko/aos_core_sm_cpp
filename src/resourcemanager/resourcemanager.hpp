@@ -44,12 +44,10 @@ public:
     Error CheckGroup(const String& group) const override;
 
 private:
-    static constexpr auto cDevicesDirectory = "/dev/";
-    static constexpr auto cGroupsFile       = "/etc/group";
+    static constexpr auto cGroupsFile = "/etc/group";
 
     Error ParseGroups();
 
-    std::set<std::string> mDevices;
     std::set<std::string> mGroups;
 };
 

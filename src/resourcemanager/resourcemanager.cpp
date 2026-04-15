@@ -25,10 +25,6 @@ namespace aos::sm::resourcemanager {
 Error HostDeviceManager::Init()
 {
     try {
-        for (const auto& entry : std::filesystem::directory_iterator(cDevicesDirectory)) {
-            mDevices.insert(entry.path().string());
-        }
-
         if (auto err = ParseGroups(); !err.IsNone()) {
             return AOS_ERROR_WRAP(err);
         }
@@ -51,8 +47,10 @@ Error HostDeviceManager::CheckDevice(const String& device) const
         return AOS_ERROR_WRAP(ErrorEnum::eFailed);
     }
 
-    if (mDevices.find(devices[0].CStr()) == mDevices.end()) {
-        return AOS_ERROR_WRAP(ErrorEnum::eNotFound);
+    std::error_code ec;
+
+    if (!std::filesystem::exists(devices[0].CStr(), ec) || ec.value() != 0) {
+        return AOS_ERROR_WRAP(Error(ErrorEnum::eNotFound, ec.message().c_str()));
     }
 
     return ErrorEnum::eNone;

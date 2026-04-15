@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+#include <filesystem>
+
 #include <gtest/gtest.h>
 
 #include <aos/test/log.hpp>
@@ -17,7 +19,14 @@ namespace aos::sm::resourcemanager {
 
 class ResourcemanagerTest : public Test {
 public:
-    void SetUp() override { test::InitLog(); }
+    void SetUp() override
+    {
+        test::InitLog();
+
+        std::filesystem::create_directories("test/dev/dri/card0");
+    }
+
+    void TearDown() override { std::filesystem::remove_all("test"); }
 
     HostDeviceManager mHostDeviceManager;
 };
@@ -34,6 +43,9 @@ TEST_F(ResourcemanagerTest, CheckDevice)
     EXPECT_TRUE(err.IsNone()) << test::ErrorToStr(err);
 
     err = mHostDeviceManager.CheckDevice("/dev/null:/dev/test");
+    EXPECT_TRUE(err.IsNone()) << test::ErrorToStr(err);
+
+    err = mHostDeviceManager.CheckDevice("test/dev/dri/card0:/dev/dri/card0");
     EXPECT_TRUE(err.IsNone()) << test::ErrorToStr(err);
 }
 
